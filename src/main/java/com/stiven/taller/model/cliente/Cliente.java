@@ -3,17 +3,20 @@ package com.stiven.taller.model.cliente;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.stiven.taller.model.vehiculo.Vehiculo;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
+
 @Table(name = "clientes")
+@Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Cliente {
 
     @Id

@@ -16,7 +16,6 @@ public class Vehiculo {
 
     @Id
     private String placa;
-
     private String marca;
     private String modelo;
     private Integer anio;
@@ -24,7 +23,7 @@ public class Vehiculo {
     private LocalDateTime fechaRegistro;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_cedula", referencedColumnName = "cedula") // Se asocia con cédula
+    @JoinColumn(name = "cliente_cedula", referencedColumnName = "cedula")
     @JsonBackReference
     private Cliente cliente;
 
