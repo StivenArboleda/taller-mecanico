@@ -8,7 +8,8 @@ import lombok.Getter;
 @Data
 @Builder
 @Getter
-@Schema(description = "Respuesta de un vehículo.")
+@Schema(description = "Representación de los datos devueltos al consultar una vehículo.")
+
 public class VehicleResponse {
 
     @Schema(description = "Placa del vehículo", required = true, example = "ABC123")

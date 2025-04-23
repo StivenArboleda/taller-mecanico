@@ -67,12 +67,52 @@ public class ClienteController {
             summary = "Obtener todos los clientes",
             description = "Devuelve una lista completa de los clientes registrados."
     )
-    @ApiResponse(responseCode = "200", description = "Lista de clientes",
-            content = @Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = Cliente.class))
+    @ApiResponse(
+            responseCode = "200",
+            description = "Lista de clientes",
+            content = @Content(
+                    mediaType = "application/json",
+                    array = @ArraySchema(
+                            schema = @Schema(implementation = ClienteResponse.class)
+                    ),
+                    examples = @ExampleObject(
+                            name = "Ejemplo de respuesta",
+                            value = "[\n" +
+                                    "  {\n" +
+                                    "    \"cedula\": \"1234567890\",\n" +
+                                    "    \"nombre\": \"Juan\",\n" +
+                                    "    \"apellido\": \"Pérez\",\n" +
+                                    "    \"email\": \"juan.perez@example.com\",\n" +
+                                    "    \"telefono\": \"3101234567\",\n" +
+                                    "    \"direccion\": \"Calle 123 #45-67\",\n" +
+                                    "    \"fechaRegistro\": \"2024-05-01\",\n" +
+                                    "    \"vehiculos\": []\n" +
+                                    "  },\n" +
+                                    "  {\n" +
+                                    "    \"cedula\": \"9876543210\",\n" +
+                                    "    \"nombre\": \"María\",\n" +
+                                    "    \"apellido\": \"Gómez\",\n" +
+                                    "    \"email\": \"maria.gomez@example.com\",\n" +
+                                    "    \"telefono\": \"3007654321\",\n" +
+                                    "    \"direccion\": \"Carrera 45 #12-34\",\n" +
+                                    "    \"fechaRegistro\": \"2024-06-10\",\n" +
+                                    "    \"vehiculos\": [\n" +
+                                    "      {\n" +
+                                    "        \"placa\": \"XYZ123\",\n" +
+                                    "        \"marca\": \"Toyota\",\n" +
+                                    "        \"modelo\": \"Corolla\",\n" +
+                                    "        \"anio\": 2020,\n" +
+                                    "        \"color\": \"Gris\",\n" +
+                                    "        \"clienteCedula\": \"9876543210\"\n" +
+                                    "      }\n" +
+                                    "    ]\n" +
+                                    "  }\n" +
+                                    "]"
+                    )
             )
     )
     @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<ClienteResponse>> getAllClients() {
         List<ClienteResponse> clients = clienteService.getAllClients();
         return new ResponseEntity<>(clients, HttpStatus.OK);
@@ -92,6 +132,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
     })
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ClienteResponse> getClientById(@PathVariable Long id) {
         ClienteResponse response = clienteService.getClientById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -99,17 +140,39 @@ public class ClienteController {
 
     @Operation(
             summary = "Actualizar un cliente existente",
-            description = "Actualiza la información de un cliente mediante su ID."
+            description = "Actualiza la información de un cliente mediante su ID.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Datos del cliente a actualizar",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = ClienteRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Ejemplo de actualización",
+                                    value = "{\n" +
+                                            "  \"nombre\": \"Juan\",\n" +
+                                            "  \"apellido\": \"Pérez\",\n" +
+                                            "  \"email\": \"juan.perez@example.com\",\n" +
+                                            "  \"telefono\": \"3101234567\",\n" +
+                                            "  \"direccion\": \"Calle 123 #45-67\",\n" +
+                                            "  \"fechaRegistro\": \"2024-05-01\"\n" +
+                                            "}"
+                            )
+                    )
+            )
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cliente actualizado exitosamente",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Cliente.class)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Cliente actualizado exitosamente",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ClienteResponse.class)
                     )
             ),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
     })
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ClienteResponse> updateClient(@PathVariable Long id, @RequestBody ClienteRequest request) {
         ClienteResponse response = clienteService.updateClient(id, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -124,6 +187,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
     })
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         clienteService.deleteClient(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -154,6 +218,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
     })
     @GetMapping("/cedula/{cedula}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ClienteResponse> getClientByCedula(@PathVariable String cedula) {
         ClienteResponse response = clienteService.getClientByCedula(cedula);
         return new ResponseEntity<>(response, HttpStatus.OK);

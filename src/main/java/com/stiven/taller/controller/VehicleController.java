@@ -7,6 +7,7 @@ import com.stiven.taller.service.ClienteService;
 import com.stiven.taller.service.VehiculoService;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
     })
     @PostMapping
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<VehicleResponse> create(@RequestBody VehicleRequest request) {
         return ResponseEntity.ok(vehicleService.createVehicle(request));
     }
@@ -87,35 +89,11 @@ public class VehicleController {
             @ApiResponse(responseCode = "404", description = "No se encontraron vehículos", content = @Content())
     })
     @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<VehicleResponse>> getAll() {
         return ResponseEntity.ok(vehicleService.getAllVehicles());
     }
 
-    @Operation(
-            summary = "Obtener vehículo por ID",
-            description = "Obtiene los detalles de un vehículo mediante su ID."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Vehículo encontrado exitosamente",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = VehicleResponse.class),
-                            examples = @ExampleObject(value = """
-                {
-                  "placa": "ABC123",
-                  "marca": "Toyota",
-                  "modelo": "Corolla",
-                  "anio": 2020,
-                  "color": "Rojo",
-                  "clienteCedula": "1234567890"
-                }
-                """)
-                    )
-            ),
-            @ApiResponse(responseCode = "404", description = "Vehículo no encontrado", content = @Content())
-    })
-    public ResponseEntity<VehicleResponse> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(vehicleService.getVehicleById(id));
-    }
 
     @Operation(
             summary = "Actualizar vehículo por placa",
@@ -140,6 +118,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "404", description = "Vehículo no encontrado", content = @Content())
     })
     @PutMapping("/{placa}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<VehicleResponse> update(@PathVariable String placa, @RequestBody VehicleRequest request) {
         return ResponseEntity.ok(vehicleService.updateVehicle(placa, request));
     }
@@ -153,6 +132,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")
     })
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         vehicleService.deleteVehicle(id);
         return ResponseEntity.noContent().build();
@@ -181,6 +161,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "404", description = "Vehículo no encontrado", content = @Content())
     })
     @GetMapping("/placa/{placa}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Vehiculo> getVehicleByPlaca(@PathVariable String placa) {
         Vehiculo vehiculo = vehicleService.getVehicleByPlaca(placa);
         return ResponseEntity.ok(vehiculo);
@@ -211,6 +192,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
     })
     @GetMapping("/cliente/{clienteCedula}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<VehicleResponse>> getVehiculosByCliente(@PathVariable String clienteCedula) {
         List<VehicleResponse> vehiculos = vehicleService.getVehiculosByCliente(clienteCedula);
         return ResponseEntity.ok(vehiculos);

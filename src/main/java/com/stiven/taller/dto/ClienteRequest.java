@@ -9,6 +9,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Cuerpo de solicitud para la creación y actualización de un cliente.")
 public class ClienteRequest {
 
     @Schema(example = "1234567890", description = "Cédula única del cliente", required = true)

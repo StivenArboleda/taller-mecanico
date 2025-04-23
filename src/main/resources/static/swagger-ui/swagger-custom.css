@@ -1,0 +1,25 @@
+
+.topbar {
+  background-color: #003366 !important;
+  border-bottom: 2px solid #C6C6C6;
+}
+
+.swagger-ui .info hgroup h1,
+.swagger-ui .info hgroup h2,
+.swagger-ui .info p {
+  color: #444;
+  font-family: 'Poppins', sans-serif;
+}
+
+.swagger-ui .opblock.opblock-post {
+  border-left: 5px solid #4CAF50;
+}
+.swagger-ui .opblock.opblock-get {
+  border-left: 5px solid #2196F3;
+}
+.swagger-ui .opblock.opblock-put {
+  border-left: 5px solid #FFC107;
+}
+.swagger-ui .opblock.opblock-delete {
+  border-left: 5px solid #F44336;
+}
