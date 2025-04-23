@@ -24,6 +24,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/clients")
+@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Gestión de Clientes", description = "Operaciones relacionadas con los clientes registrados en el sistema.")
 public class ClienteController {
 
@@ -118,26 +119,6 @@ public class ClienteController {
         return new ResponseEntity<>(clients, HttpStatus.OK);
     }
 
-
-    @Operation(
-            summary = "Buscar cliente por ID",
-            description = "Busca un cliente específico usando su identificador interno (ID)."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cliente encontrado",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Cliente.class)
-                    )
-            ),
-            @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
-    })
-    @GetMapping("/{id}")
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<ClienteResponse> getClientById(@PathVariable Long id) {
-        ClienteResponse response = clienteService.getClientById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     @Operation(
             summary = "Actualizar un cliente existente",
             description = "Actualiza la información de un cliente mediante su ID.",
@@ -186,10 +167,10 @@ public class ClienteController {
             @ApiResponse(responseCode = "204", description = "Cliente eliminado exitosamente", content = @Content()),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{cc}")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
-        clienteService.deleteClient(id);
+    public ResponseEntity<Void> deleteClient(@PathVariable String cc) {
+        clienteService.deleteClient(cc);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

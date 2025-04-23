@@ -26,6 +26,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Autenticación", description = "Registro y acceso mediante autenticación JWT")
 public class AuthController {
 
