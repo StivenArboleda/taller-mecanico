@@ -152,10 +152,10 @@ public class ClienteController {
             ),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado", content = @Content())
     })
-    @PutMapping("/{id}")
+    @PutMapping("/{cedula}")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<ClienteResponse> updateClient(@PathVariable Long id, @RequestBody ClienteRequest request) {
-        ClienteResponse response = clienteService.updateClient(id, request);
+    public ResponseEntity<ClienteResponse> updateClient(@PathVariable String cedula, @RequestBody ClienteRequest request) {
+        ClienteResponse response = clienteService.updateClient(cedula, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

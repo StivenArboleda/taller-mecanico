@@ -72,8 +72,8 @@ public class VehiculoService {
     }
 
 
-    public void deleteVehicle(Long id) {
-        Vehiculo vehicle = vehicleRepository.findById(id)
+    public void deleteVehicle(String placa) {
+        Vehiculo vehicle = vehicleRepository.findByPlaca(placa)
                 .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
         vehicleRepository.delete(vehicle);
     }

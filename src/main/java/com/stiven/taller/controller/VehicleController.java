@@ -133,8 +133,8 @@ public class VehicleController {
     })
     @DeleteMapping("/{id}")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        vehicleService.deleteVehicle(id);
+    public ResponseEntity<Void> delete(@PathVariable String placa) {
+        vehicleService.deleteVehicle(placa);
         return ResponseEntity.noContent().build();
     }
 

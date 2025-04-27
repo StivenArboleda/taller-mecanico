@@ -61,9 +61,9 @@ public class ClienteService {
                 .collect(Collectors.toList());
     }
 
-    public ClienteResponse updateClient(Long id, ClienteRequest request) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Cliente no encontrado con ID: " + id));
+    public ClienteResponse updateClient(String cedula, ClienteRequest request) {
+        Cliente cliente = clienteRepository.findByCedula(cedula)
+                .orElseThrow(() -> new BadRequestException("Cliente no encontrado con ID: " + cedula));
 
         Long clienteId = cliente.getId();
 
