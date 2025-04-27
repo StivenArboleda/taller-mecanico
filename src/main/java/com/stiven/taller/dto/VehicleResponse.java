@@ -1,6 +1,7 @@
 package com.stiven.taller.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Getter;
 @Data
 @Builder
 @Getter
+@AllArgsConstructor
 @Schema(description = "Representación de los datos devueltos al consultar una vehículo.")
 
 public class VehicleResponse {

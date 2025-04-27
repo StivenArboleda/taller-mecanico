@@ -1,5 +1,6 @@
 package com.stiven.taller.model.appointment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.stiven.taller.enums.AppointmentStatus;
 import com.stiven.taller.model.cliente.Cliente;
 import com.stiven.taller.model.vehiculo.Vehiculo;
@@ -31,7 +32,8 @@ public class Appointment {
     private LocalDateTime fechaRecogida;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_cedula", referencedColumnName = "cedula")
+    @JsonBackReference
     private Cliente cliente;
 
     @ManyToOne

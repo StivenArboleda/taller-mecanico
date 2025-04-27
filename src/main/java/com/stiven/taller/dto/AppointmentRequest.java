@@ -21,8 +21,8 @@ public class AppointmentRequest {
     )
     private String estado;
 
-    @Schema(description = "ID del cliente que agenda la cita", example = "1")
-    private Long clienteId;
+    @Schema(description = "Cedula del cliente que agenda la cita", example = "1")
+    private String clienteCedula;
 
     @Schema(description = "Placa del vehículo vinculado a la cita", example = "ABC123")
     private String vehiculoPlaca;

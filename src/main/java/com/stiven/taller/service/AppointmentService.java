@@ -3,6 +3,7 @@ package com.stiven.taller.service;
 import com.stiven.taller.dto.AppointmentRequest;
 import com.stiven.taller.dto.AppointmentResponse;
 import com.stiven.taller.enums.AppointmentStatus;
+import com.stiven.taller.exception.BadRequestException;
 import com.stiven.taller.model.appointment.Appointment;
 import com.stiven.taller.model.cliente.Cliente;
 import com.stiven.taller.model.vehiculo.Vehiculo;
@@ -30,11 +31,11 @@ public class AppointmentService {
     private VehiculoRepository vehicleRepository;
 
     public AppointmentResponse createAppointment(AppointmentRequest request) {
-        Cliente client = clientRepository.findById(request.getClienteId())
-                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
+        Cliente client = clientRepository.findByCedula(request.getClienteCedula())
+                .orElseThrow(() -> new BadRequestException("Cliente no encontrado"));
 
         Vehiculo vehicle = vehicleRepository.findByPlaca(request.getVehiculoPlaca())
-                .orElseThrow(() -> new EntityNotFoundException("Vehículo no encontrado"));
+                .orElseThrow(() -> new BadRequestException("Vehículo no encontrado"));
 
         Appointment appointment = new Appointment();
         appointment.setFechaCita(request.getFechaCita());
@@ -50,7 +51,7 @@ public class AppointmentService {
 
     public AppointmentResponse updateAppointmentStatus(Long id, String newStatus) {
         Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cita no encontrada"));
+                .orElseThrow(() -> new BadRequestException("Cita no encontrada"));
 
         AppointmentStatus status = AppointmentStatus.valueOf(newStatus.toUpperCase());
         appointment.setEstado(status);
@@ -73,7 +74,7 @@ public class AppointmentService {
 
     public AppointmentResponse getAppointmentById(Long id) {
         Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cita no encontrada"));
+                .orElseThrow(() -> new BadRequestException("Cita no encontrada"));
         return mapToResponse(appointment);
     }
 
@@ -95,9 +96,8 @@ public class AppointmentService {
 
     public AppointmentResponse markAsCompleted(Long id) {
         Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cita no encontrada"));
+                .orElseThrow(() -> new BadRequestException("Cita no encontrada"));
 
-        // Cambiar estado a COMPLETADA y establecer fecha de recogida
         appointment.setEstado(AppointmentStatus.COMPLETADA);
         appointment.setFechaRecogida(LocalDateTime.now());
 

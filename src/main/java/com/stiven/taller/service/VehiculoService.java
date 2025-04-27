@@ -78,8 +78,8 @@ public class VehiculoService {
         vehicleRepository.delete(vehicle);
     }
 
-    public Vehiculo getVehicleByPlaca(String placa) {
-        return vehicleRepository.findByPlaca(placa)
+    public VehicleResponse getVehicleByPlaca(String placa) {
+        return vehicleRepository.findVehicleResponseByPlaca(placa)
                 .orElseThrow(() -> new ResourceNotFoundException("Vehículo no encontrado con placa: " + placa));
     }
 

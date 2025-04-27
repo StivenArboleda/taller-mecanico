@@ -162,8 +162,8 @@ public class VehicleController {
     })
     @GetMapping("/placa/{placa}")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<Vehiculo> getVehicleByPlaca(@PathVariable String placa) {
-        Vehiculo vehiculo = vehicleService.getVehicleByPlaca(placa);
+    public ResponseEntity<VehicleResponse> getVehicleByPlaca(@PathVariable String placa) {
+        VehicleResponse vehiculo = vehicleService.getVehicleByPlaca(placa);
         return ResponseEntity.ok(vehiculo);
     }
 
